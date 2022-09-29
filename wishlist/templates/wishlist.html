@@ -1,10 +1,15 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h5>Nama: </h5>
-<p>{{nama}}</p>
+<nav class="navbar navbar-expand-lg" style="display: flex; justify-content: space-between; padding: 10px;background-color: rgb(177, 215, 180)">
+    <div class="" style="margin-left: 20px;">
+       <a >Nama: {{nama}}</a>
+    </div>
+    <button type="button" class="btn btn-danger" style="margin-right: 20px;"><a href="{% url 'wishlist:logout' %}" style="color: white;">Logout</a></button>
 
-<table>
+</nav>
+
+<table class="table table-bordered">
     <tr>
     <th>Nama Barang</th>
     <th>Harga Barang</th>
@@ -20,6 +25,5 @@
 {% endfor %}
 </table>
 <h5>Sesi terakhir login: {{ last_login }}</h5>
-<button><a href="{% url 'wishlist:logout' %}">Logout</a></button>
 
 {% endblock content %}

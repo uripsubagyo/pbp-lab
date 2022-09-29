@@ -6,13 +6,12 @@
 
 {% block content %}
 
-<div class = "login">
+<div class = "login"style=" height: 100%; padding-top: 70px;">
 
-    <h1>Login</h1>
-
-    <form method="POST" action="">
+   <div style="display: flex; justify-content: center" ><h1 >Login</h1></div>
+    <form method="POST" action="" style="display: flex; justify-content: center">
         {% csrf_token %}
-        <table>
+        <table class="table" style="width: 400px;">
             <tr>
                 <td>Username: </td>
                 <td><input type="text" name="username" placeholder="Username" class="form-control"></td>
@@ -25,11 +24,10 @@
 
             <tr>
                 <td></td>
-                <td><input class="btn login_btn" type="submit" value="Login"></td>
+                <td><input class="btn login_btn btn-primary" type="submit" value="Login" style="width:100px ;"></td>
             </tr>
         </table>
     </form>
-
     {% if messages %}
         <ul>
             {% for message in messages %}
@@ -38,7 +36,7 @@
         </ul>
     {% endif %}     
         
-    Belum mempunyai akun? <a href="{% url 'wishlist:register' %}">Buat Akun</a>
+    <p style="display: flex; justify-content: center">Belum mempunyai akun? <a href="{% url 'wishlist:register' %}">Buat Akun</a></p>
 
 </div>
 
