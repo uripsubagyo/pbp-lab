@@ -2,7 +2,7 @@
 
 {% block content %}
 <nav class="navbar navbar-expand-lg" style="display: flex; justify-content: space-between; padding: 10px;background-color: rgb(177, 215, 180)">
-    <div class="" style="margin-left: 20px;">
+    <div class="" style="margin-left: 20px; margin-bottom: 2px;">
        <a >Nama: {{nama}}</a>
     </div>
     <button type="button" class="btn btn-danger" style="margin-right: 20px;"><a href="{% url 'wishlist:logout' %}" style="color: white;">Logout</a></button>
@@ -24,6 +24,7 @@
     </tr>
 {% endfor %}
 </table>
+<button class="btn btn-success">Direc To AJAX</button>
 <h5>Sesi terakhir login: {{ last_login }}</h5>
 
 {% endblock content %}

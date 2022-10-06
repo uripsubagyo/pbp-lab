@@ -1,3 +1,4 @@
+from multiprocessing import context
 from django.shortcuts import render
 from wishlist.models import BarangWishlist
 from django.http import HttpResponse
@@ -12,6 +13,8 @@ from django.contrib.auth.decorators import login_required
 import datetime
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from wishlist.forms import BarangWishlistAdd
+from wishlist.models import BarangWishlist
 
 # Create your views here.
 @login_required(login_url='/wishlist/login/')
@@ -23,6 +26,38 @@ def show_wishlist(request):
     'last_login': request.COOKIES['last_login']
     }
     return render(request, "wishlist.html", context)
+
+def show_wishlist_ajax(request):
+    if request.method == "POST":
+        myform = BarangWishlistAdd(request.POST)
+        if myform.is_valid():
+            nama = myform.cleaned_data["nama"]
+            harga = myform.cleaned_data["harga"]
+            description = myform.cleaned_data["description"]
+            # Task.objects.create(title=title, description=description, date=date, user=request.user)
+            BarangWishlist.objects.create(nama_barang=nama, harga_barang=harga, deskripsi=description)
+
+    context = {
+        'form' : BarangWishlistAdd()
+    }
+    return render(request, "wishlist_ajax.html", context)
+
+def add_barang(request):
+    if request.method == "POST":
+        myform = BarangWishlistAdd(request.POST)
+        if myform.is_valid():
+            nama = myform.cleaned_data["nama"]
+            harga = myform.cleaned_data["harga"]
+            description = myform.cleaned_data["description"]
+            # Task.objects.create(title=title, description=description, date=date, user=request.user)
+            BarangWishlist.objects.create(nama_barang=nama, harga_barang=harga, deskripsi=description)
+
+            return redirect('todolist:show_wishlist_ajax')
+
+    context = {
+        'form' : BarangWishlistAdd()
+    }
+    return render(request, 'add_task.html', context)
 
 def show_data_res(request):
     data = BarangWishlist.objects.all()

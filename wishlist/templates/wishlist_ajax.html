@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+    var myData = {}
+    $(document).ready(function () {
+        $("form").submit(function (event) {
+            var formData = {
+            name: $("#name").val(),
+            harga: $("#harga").val(),
+            deskripsi: $("#deskripsi").val(),
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "http://127.0.0.1:8000/wishlist/xml/",
+                data: formData,
+                dataType: "xml",
+                encode: true,
+                }).done(function (data) {
+                console.log(data);
+
+        });
+
+        $("button").click(function(event){
+            myData = {}
+            $.ajax({
+                type: "GET",
+                url: "http://127.0.0.1:8000/wishlist/json/",
+            }).done(function(data){
+                myData = data;
+            })
+        })
+    event.preventDefault();
+  });
+});
+
+
+    async function getData(){
+        $.get("https://api.thecatapi.com/v1/images/search", function(data) {
+            myData = data;
+        });
+    }
+
+    getData();
+    
+</script>
+
+<nav class="navbar navbar-expand-lg" style="display: flex; justify-content: space-between; padding: 10px;background-color: rgb(177, 215, 180)">
+    <div class="" style="margin-left: 20px; margin-bottom: 2px;">
+
+    </div>
+    <button type="button" class="btn btn-danger" style="margin-right: 20px;"><a href="{% url 'wishlist:logout' %}" style="color: white;">Logout</a></button>
+
+</nav>
+
+<table class="table table-bordered">
+    <tr>
+    <th>Nama Barang</th>
+    <th>Harga Barang</th>
+    <th>Deskripsi</th>
+    </tr>
+    {% comment %} Tambahkan data di bawah baris ini {% endcomment %}
+    {% for barang in myData %}
+    <tr>
+        <th>{{barang.nama_barang}}</th>
+        <th>{{barang.harga_barang}}</th>
+        <th>{{barang.deskripsi}}</th>
+    </tr>
+    {% endfor %}
+</table>
+
+<div class="add-form">
+    <form action=" " method="POST">
+        <div id="name-barang" class="form-group">
+          <label for="name">Nama</label>
+          <input
+            type="text"
+            class="form-control"
+            id="nama"
+            name="nama"
+            placeholder= "nama"
+          />
+        </div>
+
+        <div id="email-group" class="form-group">
+          <label for="harga">Harga</label>
+          <input
+            type="text"
+            class="form-control"
+            id="harga"
+            name="harga"
+            placeholder="Harga"
+          />
+        </div>
+
+        <div id="superhero-group" class="form-group">
+          <label for="deskripsi">Deskripsi</label>
+          <input
+            type="text"
+            class="form-control"
+            id="deskripsi"
+            name="deskripsi"
+            placeholder="Deskripsi"
+          />
+        </div>
+
+        <button type="submit" class="btn btn-success">
+          Submit
+        </button>
+      </form>
+    <button onclick=getData()</button>}>Get Data</button>
+</div>
+
+<h5>Sesi terakhir login: {{ last_login }}</h5>
+
+{% endblock content %}
